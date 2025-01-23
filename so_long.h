@@ -6,7 +6,7 @@
 /*   By: jzackiew <jzackiew@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:42:31 by jzackiew          #+#    #+#             */
-/*   Updated: 2025/01/23 13:43:28 by jzackiew         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:12:33 by jzackiew         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 # define SO_LONG_H
 
 # include "libft/libft.h"
+# include "mlx/mlx.h"
 
 #endif
