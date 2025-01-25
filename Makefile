@@ -3,35 +3,38 @@ NAME = so_long
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 
-SOURCES = main.c 
+SOURCES = main.c input_handling.c map_checking.c
 OBJECTS = $(SOURCES:.c=.o)
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-MLX_PATH = ./mlx
+MLX_PATH = mlx
 MLX =	$(MLX_PATH)/libmlx.a
-MLX_FLAGS = -Lmlx -Imlx -L/usr/lib/X11 -lXext -lX11
 
-INCLUDES = -I/opt/X11/include -Imlx
-
-all: $(MLX_LIB) $(NAME)
+all: $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-.c.o:
-	$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
+ $(MLX):
+	make -C $(MLX_PATH)
 
-$(NAME): $(OBJECTS) $(LIBFT)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX_FLAGS)
+$(NAME): $(OBJECTS) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBFT) $(MLX) -Imlx_linux -lXext -lX11 -lm -lz
+
+$(OBJECTS): %.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	make -C $(LIBFT_DIR) clean
+	make -C $(MLX_PATH) clean
 	rm -f $(OBJECTS) 
 
 fclean: clean
 	make -C $(LIBFT_DIR) fclean
+	make -C $(MLX_PATH) clean
+	rm -f $(MLX)
 	rm -f $(NAME)
 
 re: fclean all

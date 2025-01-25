@@ -6,7 +6,7 @@
 /*   By: jzackiew <jzackiew@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 09:32:22 by jzackiew          #+#    #+#             */
-/*   Updated: 2025/01/23 13:08:13 by jzackiew         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:56:01 by jzackiew         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*apply_remains(char *remains)
 	if (remains)
 	{
 		new_line = (char *)ft_calloc(ft_strlen(remains) + 1, sizeof(char));
-		ft_strcpy(new_line, remains);
+		ft_strlcpy(new_line, remains, ft_strlen(remains) + 1);
 		free(remains);
 		remains = NULL;
 	}
