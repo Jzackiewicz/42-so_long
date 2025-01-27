@@ -81,3 +81,134 @@ char	**load_map(int argc, char **argv)
 	return (map);
 }
 
+int	get_2darray_len(void **arr)
+{
+	int	i;
+
+	i = 0;
+	while(arr[i])
+		i++;
+	return(i);
+}
+
+int is_rectangular(char **map)
+{
+	int 	i;
+	size_t	line_len;
+
+	i = 0;
+	line_len = 0;
+	while(map[i])
+	{
+		if (!line_len)
+			line_len = ft_strlen(map[i]);
+		else
+			if (ft_strlen(map[i]) != line_len)
+				return (0);
+		i++;
+	}
+	return (1);
+}
+
+int check_occurrences(char **map, char c)
+{
+	int		i;
+	int		j;
+	int 	occurrences;
+
+	i = 0;
+	occurrences = 0;
+	while (map[i])
+	{
+		j = 0;
+		while(map[i][j])
+		{
+			if (map[i][j] == c)
+				occurrences++;
+			j++;
+		}
+		i++;
+	}
+	return (occurrences);
+}
+
+int is_content_valid(char **map)
+{
+	int		i;
+	int		j;
+	char	c;
+
+	i = -1;
+	while (map[++i])
+	{
+		j = -1;
+		while(map[i][++j])
+		{
+			c = map[i][j];
+			if (c != '0' && c != '1' && c != 'C' && c != 'E' && c != 'P')
+				return (0);
+		}
+	}
+	if (check_occurrences(map, 'E') != 1)
+		return (0);
+	if (check_occurrences(map, 'P') != 1)
+		return (0);
+	if (check_occurrences(map, 'C') < 1)
+		return (0);
+	return (1);
+}
+
+int is_closed(char **map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while(map[i])
+	{
+		j = 0;
+		while(map[i][j])
+		{
+			if (map[0][j] != '1' || map [i][0] != '1')
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+
+int is_path_valid(char **map)
+{
+
+}
+
+int check_map(char **map)
+{
+	if (is_rectangular(map) && is_content_valid(map) && is_closed(map) && is_path_valid(map))
+		return (1);
+	else
+		return (0);
+}
+
+void	free_map(char **map)
+{
+	int i;
+
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
+}
+
+int main(int argc, char **argv)
+{
+	char	**test_map;
+
+	test_map = load_map(argc, argv);
+	free_map(test_map);
+    return (0);
+}
