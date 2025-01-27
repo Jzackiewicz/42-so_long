@@ -29,10 +29,8 @@ char	*convert_num_to_base(uintptr_t nbr, char *base)
 {
 	char		*converted_num;
 	int			hex_len;
-	int			sign;
 	uintptr_t	unsigned_nbr;
 
-	sign = 1;
 	unsigned_nbr = (uintptr_t)nbr;
 	hex_len = get_convnum_len(unsigned_nbr, base);
 	converted_num = (char *)ft_calloc((hex_len + 1), sizeof(char));
