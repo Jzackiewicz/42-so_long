@@ -3,7 +3,7 @@ NAME = so_long
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 
-SOURCES = main.c input_handling.c map_checking.c
+SOURCES = main.c input_handling.c map_checking.c map_loading.c utils.c map_checking_utils.c
 OBJECTS = $(SOURCES:.c=.o)
 
 LIBFT_DIR = libft
