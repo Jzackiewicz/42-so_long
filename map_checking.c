@@ -6,88 +6,11 @@
 /*   By: jzackiew <jzackiew@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:30:35 by jzackiew          #+#    #+#             */
-/*   Updated: 2025/01/28 11:58:23 by jzackiew         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:39:55 by jzackiew         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	free_map(char **map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i])
-	{
-		free(map[i]);
-		i++;
-	}
-	free(map);
-}
-
-void	print_map(char **map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			ft_printf("|%c|", map[i][j]);
-			j++;
-		}
-		ft_printf("\n");
-		i++;
-	}
-}
-
-int	get_fd(int argc, char **argv)
-{
-	int	fd;
-
-	if (argc != 2)
-	{
-		ft_printf("Error! \n./so_long <map_dir>\n");
-		exit(-1);
-	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-	{
-		ft_printf("Map <%s> can't be found!\n", argv[1]);
-		exit(-1);
-	}
-	return (fd);
-}
-
-char	**load_map(int argc, char **argv)
-{
-	char	*line;
-	char	**map;
-	int		fd;
-	size_t	i;
-
-	map = NULL;
-	i = 0;
-	fd = get_fd(argc, argv);
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		map = ft_realloc(map, i * sizeof(char *), (i + 1) * sizeof(char *));
-		map[i] = line;
-		if (map[i][ft_strlen(map[i]) - 1] == '\n')
-			map[i][ft_strlen(map[i]) - 1] = 0;
-		i++;
-	}
-	map = ft_realloc(map, i * sizeof(char *), (i + 1) * sizeof(char *));
-	map[i] = NULL;
-	close(fd);
-	return (map);
-}
 
 int	is_rectangular(char **map)
 {
@@ -103,28 +26,6 @@ int	is_rectangular(char **map)
 		i++;
 	}
 	return (1);
-}
-
-int	check_occurrences(char **map, char c)
-{
-	int	i;
-	int	j;
-	int	occurrences;
-
-	i = 0;
-	occurrences = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] == c)
-				occurrences++;
-			j++;
-		}
-		i++;
-	}
-	return (occurrences);
 }
 
 int	is_content_valid(char **map)
@@ -178,66 +79,6 @@ int	is_closed(char **map)
 	return (1);
 }
 
-typedef struct s_map_data
-{
-	char	**map;
-	int		x;
-	int		y;
-}			t_map_data;
-
-t_map_data	init_map_data(char **map)
-{
-	int			i;
-	int			j;
-	t_map_data	map_data;
-
-	map_data.map = ft_2d_strdup(map);
-	i = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] == 'P')
-			{
-				map_data.x = i;
-				map_data.y = j;
-				break ;
-			}
-			j++;
-		}
-		if (map[i][j] == 'P')
-			break ;
-		i++;
-	}
-	return (map_data);
-}
-
-void	check_near_nodes(t_map_data map_data)
-{
-	map_data.map[map_data.x][map_data.y] = '1';
-	if (map_data.map[map_data.x + 1][map_data.y] != '1')
-	{
-		map_data.x++;
-		check_near_nodes(map_data);
-	}
-	if (map_data.map[map_data.x][map_data.y + 1] != '1')
-	{
-		map_data.y++;
-		check_near_nodes(map_data);
-	}
-	if (map_data.map[map_data.x - 1][map_data.y] != '1')
-	{
-		map_data.x--;
-		check_near_nodes(map_data);
-	}
-	if (map_data.map[map_data.x][map_data.y - 1] != '1')
-	{
-		map_data.y--;
-		check_near_nodes(map_data);
-	}
-}
-
 int	is_path_valid(char **map)
 {
 	t_map_data	val_map_data;
@@ -257,15 +98,14 @@ int	is_path_valid(char **map)
 	return (1);
 }
 
-int	check_map(char **map)
+void	check_map(char **map)
 {
 	if (!is_rectangular(map) || !is_content_valid(map) || !is_closed(map)
 		|| !is_path_valid(map))
 	{
 		ft_printf("ERROR\n Invalid map!\n");
-		return (0);
+		exit(-1);
 	}
-	return (1);
 }
 
 /* int main(int argc, char **argv)
