@@ -14,7 +14,7 @@
 # define SO_LONG_H
 
 # include "libft/libft.h"
-# include "mlx/mlx.h"
+//# include "mlx/mlx.h"
 
 typedef struct	s_mlx_data
 {
