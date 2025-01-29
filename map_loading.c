@@ -6,11 +6,11 @@
 /*   By: jzackiew <jzackiew@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:21:08 by jzackiew          #+#    #+#             */
-/*   Updated: 2025/01/28 12:24:17 by jzackiew         ###   ########.fr       */
+/*   Updated: 2025/01/29 14:02:34 by jzackiew         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "includes/so_long.h"
 
 static int	get_fd(int argc, char **argv)
 {
@@ -30,7 +30,7 @@ static int	get_fd(int argc, char **argv)
 	return (fd);
 }
 
-char	**load_map(int argc, char **argv)
+void	load_map(int argc, char **argv, t_mlx_data *mlx_data)
 {
 	char	*line;
 	char	**map;
@@ -54,5 +54,6 @@ char	**load_map(int argc, char **argv)
 	map = ft_realloc(map, i * sizeof(char *), (i + 1) * sizeof(char *));
 	map[i] = NULL;
 	close(fd);
-	return (map);
+	mlx_data->map_data = init_map_data(map);
+	free_map(map);
 }

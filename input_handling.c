@@ -6,35 +6,34 @@
 /*   By: jzackiew <jzackiew@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:47:01 by jzackiew          #+#    #+#             */
-/*   Updated: 2025/01/28 15:52:20 by jzackiew         ###   ########.fr       */
+/*   Updated: 2025/01/29 13:02:12 by jzackiew         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "includes/so_long.h"
 #include <X11/keysym.h>
 
 int	handle_key_input(int keysym, t_mlx_data *data)
 {
 	if (keysym == XK_Escape)
 	{
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		mlx_destroy_display(data->mlx_ptr);
-		free(data->mlx_ptr);
-		free_map(data->map);
-		free_all_images(data);
+		free_all_stuff(data);
 		exit(1);
 	}
-	printf("The %d key has been pressed\n\n", keysym);
+	if (keysym == 119)
+		move_in_direction(data, "up");
+	if (keysym == 115)
+		move_in_direction(data, "down");
+	if (keysym == 97)
+		move_in_direction(data, "left");
+	if (keysym == 100)
+		move_in_direction(data, "right");
 	return (0);
 }
 
 int	close_window(t_mlx_data *data)
 {
-	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	mlx_destroy_display(data->mlx_ptr);
-	free(data->mlx_ptr);
-	free_map(data->map);
-	free_all_images(data);
+	free_all_stuff(data);
 	exit(1);
 	return (0);
 }
