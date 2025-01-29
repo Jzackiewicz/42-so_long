@@ -6,11 +6,11 @@
 /*   By: jzackiew <jzackiew@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:25:17 by jzackiew          #+#    #+#             */
-/*   Updated: 2025/01/28 15:04:42 by jzackiew         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:18:22 by jzackiew         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "includes/so_long.h"
 
 int	check_occurrences(char **map, char c)
 {
@@ -41,11 +41,13 @@ t_map_data	init_map_data(char **map)
 	t_map_data	map_data;
 
 	map_data.map = ft_2d_strdup(map);
-	i = 0;
-	while (map[i])
+	map_data.collectible_count = check_occurrences(map_data.map, 'C');
+	map_data.moves_count = 0;
+	i = -1;
+	while (map[++i])
 	{
-		j = 0;
-		while (map[i][j])
+		j = -1;
+		while (map[i][++j])
 		{
 			if (map[i][j] == 'P')
 			{
@@ -53,11 +55,9 @@ t_map_data	init_map_data(char **map)
 				map_data.cur_y = i;
 				break ;
 			}
-			j++;
 		}
 		if (map[i][j] == 'P')
 			break ;
-		i++;
 	}
 	return (map_data);
 }

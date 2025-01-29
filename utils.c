@@ -6,11 +6,11 @@
 /*   By: jzackiew <jzackiew@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:23:16 by jzackiew          #+#    #+#             */
-/*   Updated: 2025/01/28 16:02:48 by jzackiew         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:35:56 by jzackiew         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "includes/so_long.h"
 
 void	free_map(char **map)
 {
@@ -30,30 +30,31 @@ void	free_all_images(t_mlx_data *mlx_data)
 	int	i;
 
 	i = 0;
-	while(mlx_data->images[i])
+	while (mlx_data->images[i])
 	{
-		ft_printf("i: %d\n", i);
 		mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->images[i]);
 		i++;
 	}
 	free(mlx_data->images);
 }
 
-void	print_map(char **map)
+void	free_all_stuff(t_mlx_data *mlx_data)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (map[i])
+	if (mlx_data->map_data.map)
+		free_map(mlx_data->map_data.map);
+	if (mlx_data->images)
+		free_all_images(mlx_data);
+	if (mlx_data->win_ptr)
+		mlx_destroy_window(mlx_data->mlx_ptr, mlx_data->win_ptr);
+	if (mlx_data->mlx_ptr)
 	{
-		j = 0;
-		while (map[i][j])
-		{
-			ft_printf("|%c|", map[i][j]);
-			j++;
-		}
-		ft_printf("\n");
-		i++;
+		mlx_destroy_display(mlx_data->mlx_ptr);
+		free(mlx_data->mlx_ptr);
 	}
+}
+
+void	free_all_exit(t_mlx_data *mlx_data, int err_id)
+{
+	free_all_stuff(mlx_data);
+	exit(err_id);
 }

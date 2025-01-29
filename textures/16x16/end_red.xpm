@@ -1,0 +1,28 @@
+/* XPM */
+static char *tileset_resized[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 6 1 ",
+"  c #45465E",
+". c #D05721",
+"X c #575E6F",
+"o c #A03B1E",
+"O c #313543",
+"+ c white",
+/* pixels */
+"                ",
+"................",
+".              .",
+".X...XX XXXo..X.",
+"oOoOOOOOOO OOoOo",
+". .          . .",
+".XXXX XXXXXXXXX.",
+".              .",
+"oOOOOO OOOOOOOOo",
+".XXXXXXXXXX XXX.",
+".              .",
+"oO.OO OOOOOOOoO.",
+". .          . .",
+"oX...XXXXXX...Xo",
+".              .",
+"................"
+};
